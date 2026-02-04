@@ -1,6 +1,17 @@
 spring:
+  application:
+    name: api-gateway
+
+  main:
+    web-application-type: reactive
+
   cloud:
     gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+
       routes:
         - id: auth-service
           uri: lb://AUTH-SERVICE
@@ -22,8 +33,13 @@ spring:
           predicates:
             - Path=/applications/**
 
-jwt:
-  secret: jobportal-secret-key
-
 server:
   port: 8080
+
+jwt:
+  secret: jobportal-secret-key-256-bit-length-required-123456
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
